@@ -147,6 +147,30 @@ RCT_EXPORT_METHOD(fitToElements:(nonnull NSNumber *)reactTag
     }];
 }
 
+RCT_EXPORT_METHOD(takeSnapshot:(MKCoordinateRegion)region
+                  withWidth:(NSNumber *)width
+                  withHeight:(NSNumber *)height)
+{
+    MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
+    options.region = region;
+    options.size = CGSizeMake([width floatValue], [height floatValue]);
+    options.scale = [[UIScreen mainScreen] scale];
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:@"path/to/snapshot.png"];
+    
+    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
+    [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+        if (error) {
+            NSLog(@"[Error] %@", error);
+            return;
+        }
+        
+        UIImage *image = snapshot.image;
+        NSData *data = UIImagePNGRepresentation(image);
+        [data writeToURL:fileURL atomically:YES];
+    }];
+}
+
 #pragma mark Gesture Recognizer Handlers
 
 - (void)handleMapTap:(UITapGestureRecognizer *)recognizer {

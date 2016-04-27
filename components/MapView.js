@@ -327,6 +327,10 @@ var MapView = React.createClass({
     this._runCommand('animateToRegion', [region, duration || 500]);
   },
 
+  takeSnapshot: function (region, width, height) {
+    this._runCommand('takeSnapshot', [region, width, height]);
+  },
+
   animateToCoordinate: function (latLng, duration) {
     this._runCommand('animateToCoordinate', [latLng, duration || 500]);
   },
