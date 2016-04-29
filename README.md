@@ -8,10 +8,10 @@ See [Installation Instructions](docs/installation.md).
 
 ## Compatibility
 
-Due to the rapid changes being made in the React Native ecosystem, we are not officially going to 
-support this module on anything but the latest version of React Native. With that said, we will do 
-our best to stay compatible with older versions as much that is practical, and the peer dependency 
-of this requirement is set to `"react-native": "*"` explicitly for this reason. If you are using 
+Due to the rapid changes being made in the React Native ecosystem, we are not officially going to
+support this module on anything but the latest version of React Native. With that said, we will do
+our best to stay compatible with older versions as much that is practical, and the peer dependency
+of this requirement is set to `"react-native": "*"` explicitly for this reason. If you are using
 an older version of React Native with this module though, some features may be buggy.
 
 ## General Usage
@@ -61,7 +61,7 @@ onRegionChange(region) {
 
 render() {
   return (
-    <MapView 
+    <MapView
       region={this.state.region}
       onRegionChange={this.onRegionChange}
     />
@@ -72,12 +72,12 @@ render() {
 ### Rendering a list of markers on a map
 
 ```jsx
-<MapView 
+<MapView
   region={this.state.region}
   onRegionChange={this.onRegionChange}
 >
   {this.state.markers.map(marker => (
-    <MapView.Marker 
+    <MapView.Marker
       coordinate={marker.latlng}
       title={marker.title}
       description={marker.description}
@@ -97,7 +97,7 @@ render() {
 ### Rendering a Marker with a custom image
 
 ```jsx
-<MapView.Marker 
+<MapView.Marker
   coordinate={marker.latlng}
   image={require('../assets/pin.png')}
 />
@@ -146,8 +146,8 @@ This example displays some of them in a log as a demonstration.
 
 ### Programmatically Changing Region
 
-One can change the mapview's position using refs and component methods, or by passing in an updated 
-`region` prop.  The component methods will allow one to animate to a given position like the native 
+One can change the mapview's position using refs and component methods, or by passing in an updated
+`region` prop.  The component methods will allow one to animate to a given position like the native
 API could.
 
 ![](http://i.giphy.com/3o6UB7poyB6YJ0KPWU.gif) ![](http://i.giphy.com/xT77Yc4wK3pzZusEbm.gif)
@@ -170,7 +170,7 @@ Further, Marker views can use the animated API to enhance the effect.
 
 ![](http://i.giphy.com/xT77XMw9IwS6QAv0nC.gif) ![](http://i.giphy.com/3o6UBdGQdM1GmVoIdq.gif)
 
-Issue: Since android needs to render its marker views as a bitmap, the animations APIs may not be 
+Issue: Since android needs to render its marker views as a bitmap, the animations APIs may not be
 compatible with the Marker views. Not sure if this can be worked around yet or not.
 
 Markers' coordinates can also be animated, as shown in this example:
@@ -205,7 +205,7 @@ color of the default marker by using the `pinColor` prop.
 
 ### Custom Callouts
 
-Callouts to markers can be completely arbitrary react views, similar to markers.  As a result, they 
+Callouts to markers can be completely arbitrary react views, similar to markers.  As a result, they
 can be interacted with like any other view.
 
 Additionally, you can fall back to the standard behavior of just having a title/description through
@@ -308,6 +308,42 @@ render() {
     <MapView initialRegion={...}>
       <MapView.Marker.Animated coordinate={this.state.coordinate} />
     </MapView>
+  );
+}
+```
+
+### Take Snapshot of map
+currently only for ios, android implementation WIP
+
+```jsx
+getInitialState() {
+  return {
+    coordinate: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    },
+  };
+}
+
+takeSnapshot () {
+  // arguments to 'takeSnapshot' are width, height, coordinates and callback
+  this.refs.map.takeSnapshot(300, 300, this.state.coordinate, (err, snapshot) => {
+    // snapshot contains image 'uri' - full path to image and 'data' - base64 encoded image
+    this.setState({ mapSnapshot: snapshot })
+  })
+}
+
+render() {
+  return (
+    <View>
+      <MapView initialRegion={...} ref="map">
+        <MapView.Marker coordinate={this.state.coordinate} />
+      </MapView>
+      <Image source={{ uri: this.state.mapSnapshot.uri }} />
+      <TouchableOpacity onPress={this.takeSnapshot}>
+        Take Snapshot
+      </TouchableOpacity>
+    </View>
   );
 }
 ```
