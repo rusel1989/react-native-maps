@@ -22,6 +22,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 var MarkerTypes = React.createClass({
+  takeSnapshot() {
+    this.refs.map.takeSnapshot(300, 300);
+  },
+
   render() {
     return (
       <View style={styles.container}>
@@ -54,6 +58,11 @@ var MarkerTypes = React.createClass({
             image={require('./assets/flag-pink.png')}
             />
         </MapView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.takeSnapshot} style={[styles.bubble, styles.button]}>
+            <Text>Take snapshot</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   },
@@ -75,6 +84,23 @@ var styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
   },
 });
 

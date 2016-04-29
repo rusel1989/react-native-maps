@@ -43,7 +43,7 @@ var DisplayLatLng = React.createClass({
   },
 
   takeSnapshot() {
-    this.refs.map.takeSnapshot(this.randomRegion(), 300, 300);
+    this.refs.map.takeSnapshot(300, 300);
   },
 
   randomRegion() {
