@@ -22,6 +22,20 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 var MarkerTypes = React.createClass({
+  getInitialState() {
+    return { mapSnapshot: null }
+  },
+
+  takeSnapshot() {
+    this.refs.map.takeSnapshot(300, 300, {
+      latitude: LATITUDE - SPACE,
+      longitude: LONGITUDE - SPACE
+    }, (err, data) => {
+      if (err) console.log(err)
+      this.setState({ mapSnapshot: data })
+    });
+  },
+
   render() {
     return (
       <View style={styles.container}>
@@ -54,6 +68,22 @@ var MarkerTypes = React.createClass({
             image={require('./assets/flag-pink.png')}
             />
         </MapView>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.takeSnapshot} style={[styles.bubble, styles.button]}>
+            <Text>Take snapshot</Text>
+          </TouchableOpacity>
+        </View>
+        {this.state.mapSnapshot
+          ? <TouchableOpacity
+            style={[styles.container, styles.overlay]}
+            onPress={() => this.setState({ mapSnapshot: null })}>
+              <Image
+                source={{ uri: this.state.mapSnapshot.uri }}
+                style={{ width: 300, height: 300 }}
+                />
+            </TouchableOpacity>
+            : null}
       </View>
     );
   },
@@ -76,6 +106,27 @@ var styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  button: {
+    width: 140,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+  }
 });
 
 module.exports = MarkerTypes;

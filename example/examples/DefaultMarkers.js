@@ -49,10 +49,6 @@ var DefaultMarkers = React.createClass({
     });
   },
 
-  takeSnapshot() {
-    this.refs.map.takeSnapshot(300, 300);
-  },
-
   render() {
     return (
       <View style={styles.container}>
@@ -74,9 +70,6 @@ var DefaultMarkers = React.createClass({
           <View style={styles.bubble}>
             <Text>Tap to create a marker of random color</Text>
           </View>
-          <TouchableOpacity onPress={this.takeSnapshot} style={[styles.bubble, styles.button]}>
-            <Text>Take snapshot</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );

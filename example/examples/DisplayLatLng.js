@@ -42,10 +42,6 @@ var DisplayLatLng = React.createClass({
     this.refs.map.animateToRegion(this.randomRegion());
   },
 
-  takeSnapshot() {
-    this.refs.map.takeSnapshot(300, 300);
-  },
-
   randomRegion() {
     var { region } = this.state;
     return {
@@ -77,9 +73,6 @@ var DisplayLatLng = React.createClass({
           </TouchableOpacity>
           <TouchableOpacity onPress={this.animateRandom} style={[styles.bubble, styles.button]}>
             <Text>Animate</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.takeSnapshot} style={[styles.bubble, styles.button]}>
-            <Text>Take snapshot</Text>
           </TouchableOpacity>
         </View>
       </View>
