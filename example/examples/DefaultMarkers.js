@@ -53,7 +53,6 @@ var DefaultMarkers = React.createClass({
     return (
       <View style={styles.container}>
         <MapView
-          ref="map"
           style={styles.map}
           initialRegion={this.state.region}
           onPress={this.onMapPress}
