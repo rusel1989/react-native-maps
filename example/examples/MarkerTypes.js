@@ -23,7 +23,13 @@ const SPACE = 0.01;
 
 var MarkerTypes = React.createClass({
   takeSnapshot() {
-    this.refs.map.takeSnapshot(300, 300);
+    this.refs.map.takeSnapshot(300, 300, {
+      latitude: LATITUDE + SPACE,
+      longitude: LONGITUDE + SPACE
+    }, (err, data) => {
+      if (err) console.log(err)
+      console.log(data)
+    });
   },
 
   render() {
